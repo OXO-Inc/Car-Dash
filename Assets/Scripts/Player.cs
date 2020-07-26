@@ -5,6 +5,7 @@ public class Player : MonoBehaviour
 {
     private int dir = 0;
     private Vector3 pos;
+    public SpawnVehicles spawnVehicles;
 
     void FixedUpdate()
     {
@@ -25,6 +26,15 @@ public class Player : MonoBehaviour
         {
             transform.position = Vector3.Lerp(transform.position, pos, t);
             yield return null;
+        }
+    }
+
+    void OnCollisionEnter2D (Collision2D collision)
+    {
+        Debug.Log(collision);
+        if (collision.gameObject.tag == "Vehicle")
+        {
+            spawnVehicles.cancelInvoke();
         }
     }
 

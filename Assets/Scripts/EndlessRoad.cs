@@ -20,12 +20,6 @@ public class EndlessRoad : MonoBehaviour
         {
             RepositionBackground();
         }
-
-        //TODO
-        //if (EndlessRoad.instance.gameOver == true)
-        //{
-        //   rb2d.velocity = Vector2.zero;
-        //}
     }
     private void FixedUpdate()
     {
