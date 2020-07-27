@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SpawnVehicles : MonoBehaviour
 {
@@ -8,11 +6,6 @@ public class SpawnVehicles : MonoBehaviour
     private float spawnTime = 0f;
     public float spawnDelay = 1f;
     public float speedMultiplier = 1f;
-
-    void Start()
-    {
-        callInvoke();
-    }
 
     public void callInvoke()
     {

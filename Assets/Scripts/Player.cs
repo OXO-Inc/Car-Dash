@@ -1,16 +1,31 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class Player : MonoBehaviour
 {
     private int dir = 0;
     private Vector3 pos;
-    public SpawnVehicles spawnVehicles;
 
+    public SpawnVehicles spawnVehicles;
+    
     void FixedUpdate()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && GamePlay.isGameOver == true)
         {
+            SceneManager.LoadScene("Main");
+            return;
+        }
+
+        if (Input.GetMouseButtonDown(0) && GamePlay.isGameStarted == false)
+        {
+            spawnVehicles.callInvoke();
+            GamePlay.isGameStarted = true;
+            return;
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        { 
             StopCoroutine("movePlayer");
             StartCoroutine("movePlayer");
             dir = ~dir;
@@ -31,9 +46,9 @@ public class Player : MonoBehaviour
 
     void OnCollisionEnter2D (Collision2D collision)
     {
-        Debug.Log(collision);
         if (collision.gameObject.tag == "Vehicle")
         {
+            GamePlay.isGameOver = true;
             spawnVehicles.cancelInvoke();
         }
     }
