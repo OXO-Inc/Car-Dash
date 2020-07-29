@@ -8,6 +8,11 @@ public class EndlessRoad : MonoBehaviour
     private float roadVerticalLength = 7.5f;
     private Rigidbody2D rb2d;
 
+    void Awake()
+    {
+        distance = 0;
+    }
+
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();

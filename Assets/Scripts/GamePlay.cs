@@ -12,6 +12,12 @@ public class GamePlay : MonoBehaviour
     public GameObject gameOver;
     public GameObject distance;
     public GameObject fuel;
+    public GameObject lowFuel;
+    public Slider fuelSlider;
+    public Image fuelFill;
+    public Color colorRed;
+    public Color colorOrange;
+    public Color colorGreen;
 
     void Awake()
     {
@@ -21,8 +27,22 @@ public class GamePlay : MonoBehaviour
 
     void Update()
     {
-        
         distanceText.text = (EndlessRoad.distance / 1000).ToString("0.00") + "\nKm";
+
+        fuelSlider.value = Player.fuel / 10;
+
+        if (Player.fuel < 2.5)
+        {
+            fuelFill.color = colorRed;
+            lowFuel.SetActive(true);
+        }
+        else if (Player.fuel < 5)
+        {
+            fuelFill.color = colorOrange;
+            lowFuel.SetActive(false);
+        }
+        else
+            fuelFill.color = colorGreen;
 
         if (isGameStarted == true)
         {
@@ -33,6 +53,7 @@ public class GamePlay : MonoBehaviour
 
         if(isGameOver == true && isGameStarted == true)
         {
+            lowFuel.SetActive(false);
             distance.SetActive(false);
             fuel.SetActive(false);
             gameOver.SetActive(true);

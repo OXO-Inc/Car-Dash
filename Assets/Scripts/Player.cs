@@ -8,8 +8,16 @@ public class Player : MonoBehaviour
     private Vector3 pos;
 
     public SpawnVehicles spawnVehicles;
-    
-    void FixedUpdate()
+    public SpawnFuelBarrels spawnFuelBarrels;
+
+    public static float fuel = 3;
+
+    void Awake()
+    {
+        fuel = 3;
+    }
+
+    void Update()
     {
         if (Input.GetMouseButtonDown(0) && GamePlay.isGameOver == true)
         {
@@ -20,6 +28,7 @@ public class Player : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && GamePlay.isGameStarted == false)
         {
             spawnVehicles.callInvoke();
+            spawnFuelBarrels.callInvoke();
             GamePlay.isGameStarted = true;
             return;
         }
@@ -30,6 +39,12 @@ public class Player : MonoBehaviour
             StartCoroutine("movePlayer");
             dir = ~dir;
         }
+
+        if (GamePlay.isGameStarted == true && EndlessRoad.distance % 500 == 0)
+            fuel -= 1;
+
+        if (fuel == 0)
+            gameIsOver();
     }
 
     private IEnumerator movePlayer()
@@ -47,10 +62,22 @@ public class Player : MonoBehaviour
     void OnCollisionEnter2D (Collision2D collision)
     {
         if (collision.gameObject.tag == "Vehicle")
+            gameIsOver();
+    }
+
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject.tag == "Fuel")
         {
-            GamePlay.isGameOver = true;
-            spawnVehicles.cancelInvoke();
+            fuel += 1f;
+            Destroy(col.gameObject);
         }
     }
 
+    void gameIsOver()
+    {
+        spawnVehicles.cancelInvoke();
+        spawnFuelBarrels.cancelInvoke();
+        GamePlay.isGameOver = true;
+    }
 }
