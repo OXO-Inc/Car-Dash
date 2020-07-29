@@ -3,8 +3,6 @@ using UnityEngine.UI;
 
 public class GamePlay : MonoBehaviour
 {
-    public Text distanceText;
-
     public static bool isGameOver = false;
     public static bool isGameStarted = false;
 
@@ -13,8 +11,12 @@ public class GamePlay : MonoBehaviour
     public GameObject distance;
     public GameObject fuel;
     public GameObject lowFuel;
+    public GameObject quitGame;
+
     public Slider fuelSlider;
     public Image fuelFill;
+    public Text distanceText;
+
     public Color colorRed;
     public Color colorOrange;
     public Color colorGreen;
@@ -49,6 +51,7 @@ public class GamePlay : MonoBehaviour
             distance.SetActive(true);
             fuel.SetActive(true);
             startGame.SetActive(false);
+            quitGame.SetActive(false);
         }
 
         if(isGameOver == true && isGameStarted == true)
@@ -58,5 +61,10 @@ public class GamePlay : MonoBehaviour
             fuel.SetActive(false);
             gameOver.SetActive(true);
         }
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }

@@ -21,12 +21,21 @@ public class EndlessRoad : MonoBehaviour
 
     void Update()
     {
-        if(GamePlay.isGameStarted)
+        if (GamePlay.isGameStarted)
             distance += 1;
        
         if (transform.position.y < -roadVerticalLength)
         {
             RepositionBackground();
+        }
+    }
+
+    void FixedUpdate()
+    {
+        if (GamePlay.isGameStarted && distance % 500 == 0)
+        {
+            carSpeed -= 1;
+            rb2d.velocity = new Vector2(0, carSpeed);
         }
     }
 
