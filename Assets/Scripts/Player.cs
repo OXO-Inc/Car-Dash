@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 using System.Collections;
 
 public class Player : MonoBehaviour
 {
     public static float fuel = 3;
+    public static float gameScore = 0.0f;
     public SpawnVehicles spawnVehicles;
     public SpawnFuelBarrels spawnFuelBarrels;
     public AudioSource gameOver;
@@ -17,10 +19,14 @@ public class Player : MonoBehaviour
     void Awake()
     {
         fuel = 3;
+        gameScore = 0.0f;
     }
 
     void Update()
     {
+        if(Input.GetMouseButtonDown(0) && EventSystem.current.IsPointerOverGameObject())
+            return;
+
         if (Input.GetMouseButtonDown(0) && GamePlay.isGameOver == true)
         {
             SceneManager.LoadScene("Main");
@@ -85,6 +91,13 @@ public class Player : MonoBehaviour
 
     void gameIsOver()
     {
+        gameScore = EndlessRoad.distance;
+        float prevHighScore = PlayerPrefs.GetFloat("highscore", 0);
+        float prevTotal = PlayerPrefs.GetFloat("total", 0);
+        PlayerPrefs.SetFloat("total", prevTotal + gameScore);
+        if (gameScore > prevHighScore)
+            PlayerPrefs.SetFloat("highscore", gameScore);
+
         spawnVehicles.cancelInvoke();
         spawnFuelBarrels.cancelInvoke();
         GamePlay.isGameOver = true;
