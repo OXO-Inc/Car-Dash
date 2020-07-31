@@ -3,6 +3,7 @@
 public class SpawnVehicles : MonoBehaviour
 {
     public GameObject[] vehiclePrefabss;
+
     private float spawnDelay = 1f;
     private float speedMultiplier = 1f;
     private float spawnTime = 0f;
@@ -10,7 +11,10 @@ public class SpawnVehicles : MonoBehaviour
     void Update()
     {
         if (GamePlay.isGameStarted && EndlessRoad.distance % 500 == 0)
+        {
             speedMultiplier += .5f;
+            spawnDelay -= .05f;
+        }
     }
 
     public void callInvoke()

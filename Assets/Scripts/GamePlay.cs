@@ -1,14 +1,17 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+
 public class GamePlay : MonoBehaviour
 {
+    private float highscore = 0;
     public static bool isGameOver = false;
     public static bool isGameStarted = false;
 
     public GameObject total;
     public GameObject highScore;
     public GameObject startGame;
+    public GameObject newRecord;
     public GameObject restartGame;
     public GameObject gameOver;
     public GameObject distance;
@@ -18,7 +21,9 @@ public class GamePlay : MonoBehaviour
     public GameObject gameScore;
 
     public Slider fuelSlider;
+
     public Image fuelFill;
+
     public Text distanceText;
     public Text highScoreText;
     public Text gameScoreText;
@@ -36,11 +41,11 @@ public class GamePlay : MonoBehaviour
 
     void Start()
     {
-        float score = PlayerPrefs.GetFloat("highscore", 0);
-        if (score > 0)
+        highscore = PlayerPrefs.GetFloat("highscore", 0);
+        if (highscore > 0)
         {
             highScore.SetActive(true);
-            highScoreText.text = (score / 1000).ToString("0.00") + "\nKm";
+            highScoreText.text = (highscore / 1000).ToString("0.00") + "\nKm";
         }
 
         float totalDistance = PlayerPrefs.GetFloat("total", 0);
@@ -52,6 +57,9 @@ public class GamePlay : MonoBehaviour
         distanceText.text = (EndlessRoad.distance / 1000).ToString("0.00") + "\nKm"; ;
 
         fuelSlider.value = Player.fuel / 10;
+
+        if (EndlessRoad.distance > highscore)
+            newRecord.SetActive(true);
 
         if (Player.fuel < 2.5)
         {

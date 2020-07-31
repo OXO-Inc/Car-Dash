@@ -1,19 +1,29 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using UnityEngine.Advertisements;
 using System.Collections;
 
 public class Player : MonoBehaviour
 {
+    string gameId = "3740425";
+    bool testMode = false;
+
+    private static int gameInstance = 0;
+
     public static float fuel = 3;
     public static float gameScore = 0.0f;
+
     public SpawnVehicles spawnVehicles;
+
     public SpawnFuelBarrels spawnFuelBarrels;
+
     public AudioSource gameOver;
     public AudioSource carCrash;
     public AudioSource collectFuel;
 
     private int dir = 0;
+
     private Vector3 pos;
 
     void Awake()
@@ -22,10 +32,15 @@ public class Player : MonoBehaviour
         gameScore = 0.0f;
     }
 
+    void Start()
+    {
+        Advertisement.Initialize(gameId, testMode);
+        gameInstance += 1;
+    }
+
     void Update()
     {
-        if(Input.GetMouseButtonDown(0) && EventSystem.current.IsPointerOverGameObject())
-            return;
+        if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)) return;
 
         if (Input.GetMouseButtonDown(0) && GamePlay.isGameOver == true)
         {
@@ -100,6 +115,12 @@ public class Player : MonoBehaviour
 
         spawnVehicles.cancelInvoke();
         spawnFuelBarrels.cancelInvoke();
+
+
+        if (Advertisement.IsReady() && gameInstance % 2 == 0 && gameScore > 500)
+        {
+            Advertisement.Show();
+        }
         GamePlay.isGameOver = true;
     }
 }

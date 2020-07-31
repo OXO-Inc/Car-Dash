@@ -3,6 +3,7 @@
 public class SpawnFuelBarrels : MonoBehaviour
 {
     public GameObject fuelBarrel;
+
     private float spawnDelay = 5f;
     private float speedMultiplier = 1f;
     private float spawnTime = 0f;

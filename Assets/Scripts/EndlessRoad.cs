@@ -5,7 +5,9 @@ public class EndlessRoad : MonoBehaviour
     public static float distance = 0;
 
     private int carSpeed = -3;
+
     private float roadVerticalLength = 7.5f;
+
     private Rigidbody2D rb2d;
 
     void Awake()
